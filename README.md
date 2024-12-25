@@ -98,6 +98,19 @@ git push origin main
 | `docker container prune` | Removes all stopped containers |
 | `docker image prune` | Removes all dangling images (unused and untagged) |
 
+### Complete Docker Reset
+```bash
+# ⚠️ DANGER: This will delete ALL Docker data ⚠️
+# Including: all containers, images, volumes, and configurations
+# Only use as a last resort!
+
+sudo su
+service docker stop
+cd /var/lib/docker
+rm -rf *
+service docker start
+```
+
 ### Docker Interactive Access
 ```bash
 # Access container shell
