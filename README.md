@@ -1,0 +1,2 @@
+# snnipets
+Personal snnipets collection
