@@ -98,6 +98,20 @@ git push origin main
 | `docker container prune` | Removes all stopped containers |
 | `docker image prune` | Removes all dangling images (unused and untagged) |
 
+### Docker Interactive Access
+```bash
+# Access container shell
+docker exec -it container_name bash    # If bash is available
+docker exec -it container_name sh      # If only sh is available
+
+# View container logs in real-time
+docker logs -f container_name
+
+# Copy files between host and container
+docker cp container_name:/path/file.txt ./local/path    # From container to host
+docker cp ./local/file.txt container_name:/path/        # From host to container
+```
+
 ## 🔧 System Administration
 
 ### Service Management
@@ -115,8 +129,20 @@ systemctl restart service_name
 ### Network Troubleshooting
 ```bash
 # Check active TCP ports
-lsof -i tcp
-netstat -tulpn
+lsof -i tcp:80         # Check specific port 80
+lsof -i tcp            # Check all TCP ports
+netstat -tulpn | grep :80    # Check port 80
+netstat -tulpn         # List all listening ports
+
+# DNS lookup
+nslookup example.com   # Query DNS records
+nslookup -type=A example.com  # Query A records only
+nslookup -type=MX example.com # Query MX records only
+
+# View IP routing table
+ip route show          # Show all routes
+route -n               # Show numerical addresses
+traceroute example.com # Show route to host
 
 # Test HTTP response
 curl -I http://localhost
@@ -126,6 +152,24 @@ curl -I https://yourdomain.com
 hostname -I          # Get IP addresses
 hostname             # Get hostname
 ip addr show        # Detailed network interfaces
+```
+
+### SSL Certificate Management
+```bash
+# Install certbot (if not installed)
+sudo apt install certbot python3-certbot-nginx
+
+# Obtain and install certificate with Nginx
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+
+# Obtain certificate only (manual installation)
+sudo certbot certonly --standalone -d yourdomain.com
+
+# Auto-renewal test
+sudo certbot renew --dry-run
+
+# Force renewal
+sudo certbot renew --force-renewal
 ```
 
 ### Process Management
